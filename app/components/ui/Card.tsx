@@ -1,15 +1,14 @@
 'use client'
 
 interface CardProps {
-    title: string
-    children: React.ReactNode
-    className?: string
+  children: React.ReactNode
+  className?: string
 }
-export default function Card({title, children, className = ''}: CardProps) {
-    return(
-        <div className={`bg-white rounded-lg shadow-md p6 ${className}`}>
-            <h2 className="text-xl font-semibold mb-4">{title}</h2>
-            {children}
-        </div>
-    )
+
+export function Card({ children, className = '' }: CardProps) {
+  return (
+    <div className={`bg-white rounded-xl shadow-sm p-6 ${className}`}>
+      {children}
+    </div>
+  )
 }
