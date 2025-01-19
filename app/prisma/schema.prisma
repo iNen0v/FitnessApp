@@ -8,38 +8,39 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  image         String?
-  workouts      Workout[]
-  meals         Meal[]
-  progress      Progress[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  id           String         @id @default(cuid())
+  name         String?
+  email        String         @unique
+  image        String?
+  workouts     Workout[]
+  meals        Meal[]
+  progress     Progress[]
+  foodAnalyses FoodAnalysis[] @relation("UserFoodAnalyses") // Add relation name
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 }
 
 model Workout {
-  id        String    @id @default(cuid())
+  id        String     @id @default(cuid())
   date      DateTime
   duration  Int
   feeling   String
   notes     String?
   exercises Exercise[]
-  user      User      @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
   userId    String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 }
 
 model Exercise {
-  id        String    @id @default(cuid())
+  id        String   @id @default(cuid())
   name      String
   sets      Set[]
-  workout   Workout   @relation(fields: [workoutId], references: [id])
+  workout   Workout  @relation(fields: [workoutId], references: [id])
   workoutId String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Set {
@@ -68,17 +69,30 @@ model Meal {
 }
 
 model Progress {
-  id          String   @id @default(cuid())
-  date        DateTime
-  weight      Float?
-  chest       Float?
-  waist       Float?
-  hips        Float?
-  arms        Float?
-  thighs      Float?
-  photos      String[]
-  user        User     @relation(fields: [userId], references: [id])
-  userId      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  date      DateTime
+  weight    Float?
+  chest     Float?
+  waist     Float?
+  hips      Float?
+  arms      Float?
+  thighs    Float?
+  photos    String[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FoodAnalysis {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], name: "UserFoodAnalyses") // Add relation name
+  food      String
+  portion   String
+  nutrients Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '../ui/Card'
+import { Card } from '../ui/Card'
 import { Button } from '../ui/Button'
 
 interface Exercise {

@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '../ui/Card'
+import { Card } from '../ui/Card'
 
 interface Activity {
   id: string
@@ -16,7 +16,6 @@ interface RecentActivityProps {
 export function RecentActivity({ activities }: RecentActivityProps) {
   return (
     <Card title="Recent Activity">
-      <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
       <div className="space-y-4">
         {activities.map((activity) => (
           <div key={activity.id} className="flex items-center gap-4">

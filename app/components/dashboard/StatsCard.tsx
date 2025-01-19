@@ -1,6 +1,6 @@
 'use client'
 
-import Card from '../ui/Card'
+import { Card } from '../ui/Card'
 
 interface StatsCardProps {
   title: string
@@ -11,7 +11,7 @@ interface StatsCardProps {
 
 export function StatsCard({ title, value, icon, description }: StatsCardProps) {
   return (
-    <Card title={title} className="hover:bg-gray-50">
+    <Card className="hover:bg-gray-50">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-sm font-medium text-gray-600">{title}</p>

@@ -1,7 +1,17 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
-  /* config options here */
-};
+  sassOptions: {
+    includePaths: ['./styles'],
+  },
+  experimental: {
+  },
+  images: {
+    domains: ['localhost'],
+  },
+  webpack(config) {
+    return config
+  }
+}
 
-export default nextConfig;
+export default nextConfig

@@ -1,38 +1,51 @@
 'use client'
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { Card } from '@/app/components/ui'
+import { useSession } from "next-auth/react"
+import { redirect } from "next/navigation"
+import { useEffect } from "react"
+import { signOut } from "next-auth/react"
 
 export default function DashboardLayout({
-  children,
+ children,
 }: {
-  children: React.ReactNode
+ children: React.ReactNode
 }) {
-  const router = useRouter()
+ const { status, data: session } = useSession()
 
-  useEffect(() => {
-    // Тук ще добавим проверка за автентикация
-    const isAuthenticated = false // Временно, ще се промени когато добавим auth
-    if (!isAuthenticated) {
-      router.push('/login')
-    }
-  }, [router])
+ useEffect(() => {
+   if (status === "unauthenticated") {
+     redirect("/login")
+   }
+ }, [status])
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <span className="font-bold">FitnessAI</span>
-            {/* Тук ще добавим навигация и профил меню */}
-          </div>
-        </div>
-      </nav>
+ if (status === "loading") {
+   return <div>Loading...</div>
+ }
 
-      <div className="container mx-auto px-4 py-8">
-        {children}
-      </div>
-    </div>
-  )
+ return (
+   <div className="min-h-screen bg-gray-50">
+     <nav className="bg-white shadow-sm">
+       <div className="container mx-auto px-4">
+         <div className="flex items-center justify-between h-16">
+           <span className="font-bold">FitnessAI</span>
+           <div className="flex items-center gap-4">
+             <span className="text-gray-600">
+               {session?.user?.name}
+             </span>
+             <button
+               onClick={() => signOut()}
+               className="text-gray-600 hover:text-gray-900"
+             >
+               Logout
+             </button>
+           </div>
+         </div>
+       </div>
+     </nav>
+
+     <div className="container mx-auto px-4 py-8">
+       {children}
+     </div>
+   </div>
+ )
 }
